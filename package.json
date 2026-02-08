@@ -1,6 +1,6 @@
 {
   "name": "@vicin/phantom",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Powerful, lightweight TypeScript library for nominal typing.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

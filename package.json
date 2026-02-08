@@ -13,7 +13,8 @@
   },
   "homepage": "https://github.com/ZiadTaha62/phantom#readme",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "lint": "eslint --fix",
     "format": "prettier --write",
     "test": "jest tests && tsd",
@@ -52,6 +53,7 @@
     "prettier": "^3.8.1",
     "ts-jest": "^29.4.6",
     "tsd": "^0.33.0",
+    "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   }
 }

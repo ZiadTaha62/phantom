@@ -1,18 +1,30 @@
 # Changelog
 
-## v1.0.0
+All notable changes to this project will be documented in this file.
 
-- Initial release with core features
+## v1.0.5 2026-02-08
 
-## v1.0.1
+### Changed
 
-- Documentation-only updates (README.md)
+- Compiled code with tsup
 
-## v1.0.2
+## v1.0.4 2026-02-07
 
-- Added unit tests
-- Updated documentation
+### Changed
 
-## v1.0.4
+- Documentation updates (README)
 
-- Documentation-only updates (README.md)
+## v1.0.2 2026-02-07
+
+### Changed
+
+- Unit tests
+- Documentation updates (README)
+
+## v1.0.1 2026-02-07
+
+### Added
+
+### Changed
+
+- Documentation updates (README)

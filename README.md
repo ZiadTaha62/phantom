@@ -843,8 +843,8 @@ function hash<V>(value: V) {
 
 `Sigil` works seamlessly in conjunction with `Phantom`,use `Phantom` for nominal typing on primitives/objects (type-only metadata), and `Sigil` for classes. Together, they enable comprehensive domain modeling: e.g., a Phantom-branded `UserId` could be a property in a Sigil-branded `User` class, combining zero-runtime primitive safety with robust class-level checks.
 
-- GitHub: **[@sigil](https://github.com/ZiadTaha62/sigil)**
-- NPM: **[@sigil](https://www.npmjs.com/package/@vicin/sigil)**
+- **GitHub: [@sigil](https://github.com/ZiadTaha62/sigil)**
+- **NPM: [@sigil](https://www.npmjs.com/package/@vicin/sigil)**
 
 ---
 
@@ -864,6 +864,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Built with ❤️ by **Ziad Taha**.
 
-- GitHub: [@ZiadTaha62](https://github.com/ZiadTaha62)
-- NPM: [@ziadtaha62](https://www.npmjs.com/~ziadtaha62)
-- Vicin: [@vicin](https://www.npmjs.com/org/vicin)
+- **GitHub: [@ZiadTaha62](https://github.com/ZiadTaha62)**
+- **NPM: [@ziadtaha62](https://www.npmjs.com/~ziadtaha62)**
+- **Vicin: [@vicin](https://www.npmjs.com/org/vicin)**

@@ -9,7 +9,14 @@
 - [Features](#features)
 - [Install](#install)
 - [Core concepts](#core-concepts)
-- [Phantom](#phantom-1)
+- [Type constructs](#type-constructs)
+  - [Branding](#branding)
+  - [Identities with constraints](#identities-with-constraints)
+  - [Traits (additive capabilities)](#traits-additive-capabilities)
+  - [Transformations (Type pipe-like behavior)](#transformations-type-pipe-like-behavior)
+  - [Errors](#errors)
+  - [Symbols](#symbols)
+  - [Imports](#imports)
 - [Chaining](#chaining)
 - [Hot-path code ( truly type-only pattern )](#hot-path-code--truly-type-only-pattern-)
 - [Debugging](#debugging)
@@ -116,7 +123,7 @@ More details of these properties will be discussed later.
 
 ---
 
-## Phantom
+## Type constructs
 
 ### Branding
 

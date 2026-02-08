@@ -13,6 +13,6 @@
 - Added unit tests
 - Updated documentation
 
-## v1.0.3
+## v1.0.4
 
 - Documentation-only updates (README.md)

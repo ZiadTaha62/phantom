@@ -1,18 +1,18 @@
-import {
+import type {
   Brand as NamespaceBrand,
   Identity as NamespaceIdentity,
   Trait as NamespaceTrait,
   Transformation as NamespaceTransformation,
-} from "./composed";
-import {
+} from './composed';
+import type {
   Base as NamespaceBase,
   Input as NamespaceInput,
   Label as NamespaceLabel,
-  Phantom as NamespacePhantom,
   Tag as NamespaceTag,
   Traits as NamespaceTraits,
   Variants as NamespaceVariants,
-} from "./core";
+} from './core';
+import { Phantom as NamespacePhantom } from './core';
 
 /**
  * Phantom meatadata object manipulators.

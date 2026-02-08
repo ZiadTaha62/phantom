@@ -1,33 +1,33 @@
-import { Base, Phantom } from "./core";
+import type { Base, Phantom } from './core';
 
 /** Interface of 'Brand' and 'Identity' errors. */
 export interface Errors<I, T> {
   alreadyBranded: {
-    code: "ALREADY_BRANDED";
-    message: "Type already branded";
+    code: 'ALREADY_BRANDED';
+    message: 'Type already branded';
     context: {
       type: T;
     };
   };
   typeNotExtendBase: {
-    code: "TYPE_NOT_EXTEND_BASE";
-    message: "Type not extend base";
+    code: 'TYPE_NOT_EXTEND_BASE';
+    message: 'Type not extend base';
     context: {
       type: Phantom.StripPhantom<T>;
       base: Base.BaseOf<I>;
     };
   };
   transformationMismatch: {
-    code: "TRANSFORMATION_MISMATCH";
-    message: "Transformation mismatch";
+    code: 'TRANSFORMATION_MISMATCH';
+    message: 'Transformation mismatch';
     context: {
       type: T;
       transformation: I;
     };
   };
   notTransformed: {
-    code: "NOT_TRANSFORMED";
-    message: "Type is not transformed";
+    code: 'NOT_TRANSFORMED';
+    message: 'Type is not transformed';
     context: {
       type: T;
     };

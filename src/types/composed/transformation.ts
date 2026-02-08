@@ -1,18 +1,18 @@
-import {
+import type {
   Input,
   Base as NamespaceBase,
   Input as NamespaceInput,
   Label as NamespaceLabel,
   Tag as NamespaceTag,
   Variants as NamespaceVariants,
-} from "../core";
-import { ErrorType, Errors } from "../errors";
-import {
+} from '../core';
+import type { ErrorType, Errors } from '../errors';
+import type {
   HandleOriginalType,
   PatchMetadata,
   Prettify,
   WithMetadata,
-} from "./helpers";
+} from './helpers';
 
 /**
  * Transformation API.
@@ -49,10 +49,10 @@ export namespace Transformation {
   /** Internal implementation of 'Transformation.Apply' */
   type _Apply<Tr extends Any, I, T> =
     NamespaceTag.HasTag<T> extends true
-      ? ErrorType<Errors<I, T>["alreadyBranded"]>
+      ? ErrorType<Errors<I, T>['alreadyBranded']>
       : T extends NamespaceBase.BaseOf<I>
         ? WithMetadata<T, PatchMetadata<Tr, Input.Of<I>>>
-        : ErrorType<Errors<I, T>["typeNotExtendBase"]>;
+        : ErrorType<Errors<I, T>['typeNotExtendBase']>;
 
   /** Revert a transformation */
   export type Revert<Tr extends Any, T, I> =
@@ -63,8 +63,8 @@ export namespace Transformation {
     NamespaceInput.HasInput<T> extends true
       ? T extends Tr
         ? NamespaceInput.InputOf<T>
-        : ErrorType<Errors<Tr, T>["transformationMismatch"]>
-      : ErrorType<Errors<never, T>["notTransformed"]>;
+        : ErrorType<Errors<Tr, T>['transformationMismatch']>
+      : ErrorType<Errors<never, T>['notTransformed']>;
 
   /** Revert a transformation whatever transformation was */
   export type RevertAny<T, I> =
@@ -74,7 +74,7 @@ export namespace Transformation {
   type _RevertAny<T> =
     NamespaceInput.HasInput<T> extends true
       ? NamespaceInput.InputOf<T>
-      : ErrorType<Errors<never, T>["notTransformed"]>;
+      : ErrorType<Errors<never, T>['notTransformed']>;
 
   /** Check whether value is transformed with */
   export type isTransformed<T, Tr extends Any> = T extends Tr ? true : false;

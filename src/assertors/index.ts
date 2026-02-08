@@ -1,1 +1,1 @@
-export { assertors } from "./assertors";
+export { assertors } from './assertors';

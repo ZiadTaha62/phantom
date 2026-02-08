@@ -1,6 +1,6 @@
-import { Label as NamespaceLabel, Tag as NamespaceTag } from "../core";
-import { ErrorType, Errors } from "../errors";
-import { HandleOriginalType, Prettify, WithMetadata } from "./helpers";
+import type { Label as NamespaceLabel, Tag as NamespaceTag } from '../core';
+import type { ErrorType, Errors } from '../errors';
+import type { HandleOriginalType, Prettify, WithMetadata } from './helpers';
 
 /**
  * Branding API.
@@ -28,7 +28,7 @@ export namespace Brand {
   /** Internal implementation of 'Brand.Assign' */
   type _Assign<B extends Any, T> =
     NamespaceTag.HasTag<T> extends true
-      ? ErrorType<Errors<B, T>["alreadyBranded"]>
+      ? ErrorType<Errors<B, T>['alreadyBranded']>
       : WithMetadata<T, B>;
 
   /**

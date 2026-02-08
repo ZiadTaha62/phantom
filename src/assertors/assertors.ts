@@ -1,15 +1,15 @@
-import { asBrand as _asBrand } from "./brand";
-import { asIdentity as _asIdentity } from "./identity";
+import { asBrand as _asBrand } from './brand';
+import { asIdentity as _asIdentity } from './identity';
 import {
   addTrait as _asTrait,
   addTraits as _asTraits,
   dropTrait as _dropTrait,
   dropTraits as _dropTraits,
-} from "./trait";
+} from './trait';
 import {
   applyTransformation as _applyTransformation,
   revertTransformation as _revertTransformation,
-} from "./transformation";
+} from './transformation';
 
 export namespace assertors {
   /**

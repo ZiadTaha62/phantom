@@ -1,16 +1,16 @@
-import {
+import type {
   Base as NamespaceBase,
   Label as NamespaceLabel,
   Tag as NamespaceTag,
   Variants as NamespaceVariants,
-} from "../core";
-import { ErrorType, Errors } from "../errors";
-import {
+} from '../core';
+import type { ErrorType, Errors } from '../errors';
+import type {
   HandleOriginalType,
   PatchMetadata,
   Prettify,
   WithMetadata,
-} from "./helpers";
+} from './helpers';
 
 /**
  * Identity API.
@@ -46,10 +46,10 @@ export namespace Identity {
   /** Internal implementation of 'Identity.Assign' */
   type _Assign<I extends Any, T> =
     NamespaceTag.HasTag<T> extends true
-      ? ErrorType<Errors<I, T>["alreadyBranded"]>
+      ? ErrorType<Errors<I, T>['alreadyBranded']>
       : T extends NamespaceBase.BaseOf<I>
         ? WithMetadata<T, I>
-        : ErrorType<Errors<I, T>["typeNotExtendBase"]>;
+        : ErrorType<Errors<I, T>['typeNotExtendBase']>;
 
   /** Safe identity assignment */
   export type AssignSafe<I extends Any, T> =
@@ -61,7 +61,7 @@ export namespace Identity {
       ? T
       : T extends NamespaceBase.BaseOf<I>
         ? WithMetadata<T, I>
-        : ErrorType<Errors<I, T>["typeNotExtendBase"]>;
+        : ErrorType<Errors<I, T>['typeNotExtendBase']>;
 
   /** Set the active variant on an identity */
   export type WithVariant<

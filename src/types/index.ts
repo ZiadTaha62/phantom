@@ -1,5 +1,5 @@
-export type { ErrorType } from "./errors";
-export { Phantom } from "./public";
+export type { ErrorType } from './errors';
+export { Phantom } from './public';
 export type {
   Base,
   Brand,
@@ -12,4 +12,4 @@ export type {
   Traits,
   Transformation,
   Variants,
-} from "./public";
+} from './public';

@@ -1,16 +1,16 @@
-import {
+import type {
   Phantom as NamespacePhantom,
   Traits as NamespaceTraits,
-} from "../core";
-import { ErrorType } from "../errors";
-import {
+} from '../core';
+import type { ErrorType } from '../errors';
+import type {
   Equals,
   HandleOriginalType,
   IfNever,
   IntersectOf,
   WithMetadata,
   WithoutMetadata,
-} from "./helpers";
+} from './helpers';
 
 /**
  * Trait API.
@@ -63,10 +63,10 @@ export namespace Trait {
     > extends true
       ? Equals<
           keyof NamespacePhantom.PhantomOf<T>,
-          "__OriginalType" | "__Traits"
+          '__OriginalType' | '__Traits'
         > extends true
         ? NamespacePhantom.StripPhantom<T>
-        : WithoutMetadata<T, "__Traits">
+        : WithoutMetadata<T, '__Traits'>
       : WithMetadata<
           T,
           NamespaceTraits.FromMap<
@@ -86,10 +86,10 @@ export namespace Trait {
     > extends true
       ? Equals<
           keyof NamespacePhantom.PhantomOf<T>,
-          "__OriginalType" | "__Traits"
+          '__OriginalType' | '__Traits'
         > extends true
         ? NamespacePhantom.StripPhantom<T>
-        : WithoutMetadata<T, "__Traits">
+        : WithoutMetadata<T, '__Traits'>
       : WithMetadata<
           T,
           NamespaceTraits.FromMap<

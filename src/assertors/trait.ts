@@ -1,4 +1,4 @@
-import { Trait } from "../types";
+import type { Trait } from '../types';
 
 /**
  * Creates a typed caster that adds a single {@link Trait} to a value.

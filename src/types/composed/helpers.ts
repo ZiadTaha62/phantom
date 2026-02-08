@@ -1,4 +1,4 @@
-import { Phantom } from "../core";
+import type { Phantom } from '../core';
 
 /** --------------------------------------
  * Phantom type helpers
@@ -12,7 +12,7 @@ export type WithMetadata<T, Change extends object> = Phantom.StripPhantom<T> & {
   __Phantom: Prettify<
     Merge<
       IfNever<Phantom.PhantomOf<T>>,
-      Omit<IfNever<Phantom.PhantomOf<Change>>, "__Base"> & SetType<T>
+      Omit<IfNever<Phantom.PhantomOf<Change>>, '__Base'> & SetType<T>
     >
   >;
 };
@@ -48,15 +48,15 @@ export type StripMetadata<T, S extends string> = {
 export type HandleOriginalType<T> =
   Equals<
     Omit<Phantom.StripPhantom<T>, never>,
-    Omit<T, "__Phantom">
+    Omit<T, '__Phantom'>
   > extends true
     ? T
-    : Omit<T, "__Phantom"> &
+    : Omit<T, '__Phantom'> &
         PatchMetadata<
           T,
           {
             __Phantom: {
-              __OriginalType?: Omit<T, "__Phantom">;
+              __OriginalType?: Omit<T, '__Phantom'>;
             };
           }
         >;
@@ -81,7 +81,7 @@ type SetType<T> = T extends { __Phantom: { __OriginalType?: infer O } }
 
 /** Prettify type */
 export type Prettify<T> = {
-  [K in keyof T]: K extends "__Phantom" | "__Traits" ? Prettify<T[K]> : T[K];
+  [K in keyof T]: K extends '__Phantom' | '__Traits' ? Prettify<T[K]> : T[K];
 } & {};
 
 /** Check equality and returns true or false */

@@ -1,14 +1,14 @@
 import {
-  addTrait as _addTrait,
-  addTraits as _addTraits,
-  applyTransformation as _applyTransformation,
-  asBrand as _asBrand,
-  asIdentity as _asIdentity,
-  dropTrait as _dropTrait,
-  dropTraits as _dropTraits,
-  revertTransformation as _revertTransformation,
+  addTrait,
+  addTraits,
+  applyTransformation,
+  asBrand,
+  asIdentity,
+  dropTrait,
+  dropTraits,
+  revertTransformation,
 } from './assertors';
-import { PhantomChain as _PhantomChain } from './chain';
+import { PhantomChain } from './chain';
 import type {
   BaseCore,
   InputCore,
@@ -20,9 +20,20 @@ import type {
   IdentityCore,
   TraitCore,
   TransformationCore,
-  ErrorType as _ErrorType,
+  ErrorType,
 } from './core';
 import { PhantomCore } from './core';
+
+const _addTrait = addTrait;
+const _addTraits = addTraits;
+const _applyTransformation = applyTransformation;
+const _asBrand = asBrand;
+const _asIdentity = asIdentity;
+const _dropTrait = dropTrait;
+const _dropTraits = dropTraits;
+const _revertTransformation = revertTransformation;
+const _PhantomChain = PhantomChain;
+type _ErrorType<E> = ErrorType<E>;
 
 export namespace Phantom {
   /** --------------------------------------
@@ -548,5 +559,5 @@ export namespace Phantom {
    *   .end();
    * ```
    */
-  export const PhantomChain = _PhantomChain;
+  export class PhantomChain<T> extends _PhantomChain<T> {}
 }

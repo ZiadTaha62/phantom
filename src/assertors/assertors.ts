@@ -1,15 +1,16 @@
-import { asBrand as _asBrand } from './brand';
-import { asIdentity as _asIdentity } from './identity';
-import {
-  addTrait as _asTrait,
-  addTraits as _asTraits,
-  dropTrait as _dropTrait,
-  dropTraits as _dropTraits,
-} from './trait';
-import {
-  applyTransformation as _applyTransformation,
-  revertTransformation as _revertTransformation,
-} from './transformation';
+import { asBrand } from './brand';
+import { asIdentity } from './identity';
+import { addTrait, addTraits, dropTrait, dropTraits } from './trait';
+import { applyTransformation, revertTransformation } from './transformation';
+
+const _addTrait = addTrait;
+const _addTraits = addTraits;
+const _applyTransformation = applyTransformation;
+const _asBrand = asBrand;
+const _asIdentity = asIdentity;
+const _dropTrait = dropTrait;
+const _dropTraits = dropTraits;
+const _revertTransformation = revertTransformation;
 
 export namespace assertors {
   /**
@@ -44,7 +45,7 @@ export namespace assertors {
    * @template Tr - The trait declaration to add.
    * @returns A function that adds the trait to any value.
    */
-  export const addTrait = _asTrait;
+  export const addTrait = _addTrait;
 
   /**
    * Creates a typed caster that adds multiple {@link Trait}s to a value.
@@ -54,7 +55,7 @@ export namespace assertors {
    * @template Tr - Tuple of trait declarations to add.
    * @returns A function that adds all traits to any value.
    */
-  export const addTraits = _asTraits;
+  export const addTraits = _addTraits;
 
   /**
    * Creates a typed caster that removes a single {@link Trait} from a value.

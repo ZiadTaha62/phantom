@@ -1,4 +1,5 @@
-import type { Base, Phantom } from './core';
+import type { BaseCore } from './fields';
+import type { PhantomCore } from './phantom';
 
 /** Interface of 'Brand' and 'Identity' errors. */
 export interface Errors<I, T> {
@@ -13,8 +14,8 @@ export interface Errors<I, T> {
     code: 'TYPE_NOT_EXTEND_BASE';
     message: 'Type not extend base';
     context: {
-      type: Phantom.StripPhantom<T>;
-      base: Base.BaseOf<I>;
+      type: PhantomCore.StripPhantom<T>;
+      base: BaseCore.BaseOf<I>;
     };
   };
   transformationMismatch: {

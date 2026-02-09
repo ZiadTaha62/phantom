@@ -3,7 +3,7 @@
  *
  * Utilities for attaching and querying input metadata in transformations.
  */
-export namespace Input {
+export namespace InputCore {
   /** Marker type for input value */
   export type Any = { __Phantom: { __Input: unknown } };
 

@@ -4,7 +4,7 @@
  * Used to constrain which runtime types a brand, identity,
  * or transformation may be applied to.
  */
-export namespace Base {
+export namespace BaseCore {
   /** Marker type for base constraints */
   export type Any = {
     __Phantom: { __Base?: unknown };

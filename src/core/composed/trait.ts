@@ -1,7 +1,5 @@
-import type {
-  Phantom as NamespacePhantom,
-  Traits as NamespaceTraits,
-} from '../core';
+import type { TraitsCore } from '../fields';
+import type { PhantomCore } from '../phantom';
 import type { ErrorType } from '../errors';
 import type {
   Equals,
@@ -18,12 +16,12 @@ import type {
  * Traits are additive capabilities that can be attached
  * or removed independently.
  */
-export namespace Trait {
+export namespace TraitCore {
   /** Type guard for any trait. */
-  export type Any = NamespaceTraits.Of<string | symbol>;
+  export type Any = TraitsCore.Of<string | symbol>;
 
   /** Declare a trait */
-  export type Declare<Tr extends string | symbol> = NamespaceTraits.Of<Tr>;
+  export type Declare<Tr extends string | symbol> = TraitsCore.Of<Tr>;
 
   /** Add a trait */
   export type Add<Tr extends Any, T> =
@@ -32,9 +30,8 @@ export namespace Trait {
   /** Internal implementation of 'Trait.Add' */
   type _Add<Tr extends Any, T> = WithMetadata<
     T,
-    NamespaceTraits.FromMap<
-      IfNever<NamespaceTraits.TraitsOf<T>> &
-        IfNever<NamespaceTraits.TraitsOf<Tr>>
+    TraitsCore.FromMap<
+      IfNever<TraitsCore.TraitsOf<T>> & IfNever<TraitsCore.TraitsOf<Tr>>
     >
   >;
 
@@ -45,9 +42,9 @@ export namespace Trait {
   /** Internal implementation of 'Trait.AddMulti' */
   type _AddMulti<Tr extends readonly Any[], T> = WithMetadata<
     T,
-    NamespaceTraits.FromMap<
-      IfNever<NamespaceTraits.TraitsOf<T>> &
-        IfNever<NamespaceTraits.TraitsOf<IntersectOf<Tr[number]>>>
+    TraitsCore.FromMap<
+      IfNever<TraitsCore.TraitsOf<T>> &
+        IfNever<TraitsCore.TraitsOf<IntersectOf<Tr[number]>>>
     >
   >;
 
@@ -57,20 +54,17 @@ export namespace Trait {
 
   /** Internal implementation of 'Trait.Drop' */
   type _Drop<Tr extends Any, T> =
-    Equals<
-      NamespaceTraits.TraitKeysOf<Tr>,
-      NamespaceTraits.TraitKeysOf<T>
-    > extends true
+    Equals<TraitsCore.TraitKeysOf<Tr>, TraitsCore.TraitKeysOf<T>> extends true
       ? Equals<
-          keyof NamespacePhantom.PhantomOf<T>,
+          keyof PhantomCore.PhantomOf<T>,
           '__OriginalType' | '__Traits'
         > extends true
-        ? NamespacePhantom.StripPhantom<T>
+        ? PhantomCore.StripPhantom<T>
         : WithoutMetadata<T, '__Traits'>
       : WithMetadata<
           T,
-          NamespaceTraits.FromMap<
-            Omit<NamespaceTraits.TraitsOf<T>, NamespaceTraits.TraitKeysOf<Tr>>
+          TraitsCore.FromMap<
+            Omit<TraitsCore.TraitsOf<T>, TraitsCore.TraitKeysOf<Tr>>
           >
         >;
 
@@ -81,21 +75,21 @@ export namespace Trait {
   /** Internal implementation of 'Trait.DropMulti' */
   type _DropMulti<Tr extends readonly Any[], T> =
     Equals<
-      NamespaceTraits.TraitKeysOf<IntersectOf<Tr[number]>>,
-      NamespaceTraits.TraitKeysOf<T>
+      TraitsCore.TraitKeysOf<IntersectOf<Tr[number]>>,
+      TraitsCore.TraitKeysOf<T>
     > extends true
       ? Equals<
-          keyof NamespacePhantom.PhantomOf<T>,
+          keyof PhantomCore.PhantomOf<T>,
           '__OriginalType' | '__Traits'
         > extends true
-        ? NamespacePhantom.StripPhantom<T>
+        ? PhantomCore.StripPhantom<T>
         : WithoutMetadata<T, '__Traits'>
       : WithMetadata<
           T,
-          NamespaceTraits.FromMap<
+          TraitsCore.FromMap<
             Omit<
-              NamespaceTraits.TraitsOf<T>,
-              NamespaceTraits.TraitKeysOf<IntersectOf<Tr[number]>>
+              TraitsCore.TraitsOf<T>,
+              TraitsCore.TraitKeysOf<IntersectOf<Tr[number]>>
             >
           >
         >;

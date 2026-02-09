@@ -30,6 +30,9 @@
     "exactOptionalPropertyTypes": true,
     "verbatimModuleSyntax": true,
 
+    /** Rollup helper */
+    "importHelpers": true,
+
     /* Build hygiene */
     "forceConsistentCasingInFileNames": true
   },

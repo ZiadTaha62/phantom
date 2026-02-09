@@ -433,7 +433,7 @@ type UserId = Brand.Declare<typeof __UserId, 'User id'>;
 export const asUserId = assertors.asBrand<UserId>();
 ```
 
-Also if you prefer default imports you can just:
+If you prefer default imports you can just:
 
 ```ts
 import P from '@vicin/phantom';
@@ -444,6 +444,14 @@ type UserId = P.Brand.Declare<typeof __UserId, 'User id'>;
 
 // assertor
 export const asUserId = P.assertors.asBrand<UserId>();
+```
+
+Also you can import single assertor function:
+
+```ts
+import { asBrand } from '@vicin/phantom';
+
+export const asUserId = assertors.asBrand<UserId>();
 ```
 
 You are free to pick whatever pattern you are comfortable with.

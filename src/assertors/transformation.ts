@@ -1,4 +1,4 @@
-import type { Transformation } from '../types';
+import type { Transformation } from '../core';
 
 /**
  * Creates a typed applicator for a {@link Transformation}.

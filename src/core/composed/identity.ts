@@ -1,9 +1,4 @@
-import type {
-  Base as NamespaceBase,
-  Label as NamespaceLabel,
-  Tag as NamespaceTag,
-  Variants as NamespaceVariants,
-} from '../core';
+import type { BaseCore, LabelCore, TagCore, VariantsCore } from '../fields';
 import type { ErrorType, Errors } from '../errors';
 import type {
   HandleOriginalType,
@@ -19,9 +14,9 @@ import type {
  * - Base type
  * - Variants
  */
-export namespace Identity {
+export namespace IdentityCore {
   /** Type guard for any identity. */
-  export type Any = NamespaceTag.Of<string | symbol>;
+  export type Any = TagCore.Of<string | symbol>;
 
   /** Declare an identity */
   export type Declare<
@@ -30,10 +25,10 @@ export namespace Identity {
     B extends unknown = never,
     V extends string = never,
   > = Prettify<
-    NamespaceTag.Of<T> &
-      NamespaceLabel.OfIfExists<L> &
-      NamespaceBase.OfIfExists<B> &
-      NamespaceVariants.OfIfExists<V>
+    TagCore.Of<T> &
+      LabelCore.OfIfExists<L> &
+      BaseCore.OfIfExists<B> &
+      VariantsCore.OfIfExists<V>
   >;
 
   /**
@@ -45,9 +40,9 @@ export namespace Identity {
 
   /** Internal implementation of 'Identity.Assign' */
   type _Assign<I extends Any, T> =
-    NamespaceTag.HasTag<T> extends true
+    TagCore.HasTag<T> extends true
       ? ErrorType<Errors<I, T>['alreadyBranded']>
-      : T extends NamespaceBase.BaseOf<I>
+      : T extends BaseCore.BaseOf<I>
         ? WithMetadata<T, I>
         : ErrorType<Errors<I, T>['typeNotExtendBase']>;
 
@@ -57,27 +52,27 @@ export namespace Identity {
 
   /** Internal implementation of 'Identity.AssignSafe' */
   type _AssignSafe<I extends Any, T> =
-    NamespaceTag.HasTag<T> extends true
+    TagCore.HasTag<T> extends true
       ? T
-      : T extends NamespaceBase.BaseOf<I>
+      : T extends BaseCore.BaseOf<I>
         ? WithMetadata<T, I>
         : ErrorType<Errors<I, T>['typeNotExtendBase']>;
 
   /** Set the active variant on an identity */
   export type WithVariant<
     I extends Any,
-    V extends NamespaceVariants.VariantsOf<I>,
-  > = PatchMetadata<I, NamespaceVariants.Of<V>>;
+    V extends VariantsCore.VariantsOf<I>,
+  > = PatchMetadata<I, VariantsCore.Of<V>>;
 
   /** Set the active variant on a value */
-  export type WithTypeVariant<T, V extends NamespaceVariants.VariantsOf<T>> =
+  export type WithTypeVariant<T, V extends VariantsCore.VariantsOf<T>> =
     T extends ErrorType<any> ? T : _WithTypeVariant<HandleOriginalType<T>, V>;
 
   /** Internal implementation of 'Identity.WithTypeVariant' */
-  type _WithTypeVariant<
+  type _WithTypeVariant<T, V extends VariantsCore.VariantsOf<T>> = WithMetadata<
     T,
-    V extends NamespaceVariants.VariantsOf<T>,
-  > = WithMetadata<T, NamespaceVariants.Of<V>>;
+    VariantsCore.Of<V>
+  >;
 
   /** Check whether value is branded with */
   export type isIdentity<T, I extends Any> = T extends I ? true : false;

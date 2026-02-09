@@ -1,19 +1,28 @@
-import { assertors as NamespaceAssertors } from './assertors';
+import {
+  addTrait as _addTrait,
+  addTraits as _addTraits,
+  applyTransformation as _applyTransformation,
+  asBrand as _asBrand,
+  asIdentity as _asIdentity,
+  dropTrait as _dropTrait,
+  dropTraits as _dropTraits,
+  revertTransformation as _revertTransformation,
+} from './assertors';
 import { PhantomChain as _PhantomChain } from './chain';
 import type {
-  Base as NamespaceBase,
-  Brand as NamespaceBrand,
-  Identity as NamespaceIdentity,
-  Input as NamespaceInput,
-  Label as NamespaceLabel,
-  Tag as NamespaceTag,
-  Trait as NamespaceTrait,
-  Traits as NamespaceTraits,
-  Transformation as NamespaceTransformation,
-  Variants as NamespaceVariants,
+  BaseCore,
+  InputCore,
+  LabelCore,
+  TagCore,
+  TraitsCore,
+  VariantsCore,
+  BrandCore,
+  IdentityCore,
+  TraitCore,
+  TransformationCore,
   ErrorType as _ErrorType,
-} from './types';
-import { Phantom as NamespacePhantom } from './types';
+} from './core';
+import { PhantomCore } from './core';
 
 export namespace Phantom {
   /** --------------------------------------
@@ -27,14 +36,14 @@ export namespace Phantom {
    */
   export namespace Label {
     /** Marker type for labeled values */
-    export type Any = NamespaceLabel.Any;
+    export type Any = LabelCore.Any;
     /** Extract the label */
-    export type LabelOf<T> = NamespaceLabel.LabelOf<T>;
+    export type LabelOf<T> = LabelCore.LabelOf<T>;
     /** Check whether a label exists */
-    export type HasLabel<
+    export type HasLabel<T, L extends string = string> = LabelCore.HasLabel<
       T,
-      L extends string = string,
-    > = NamespaceLabel.HasLabel<T, L>;
+      L
+    >;
   }
 
   /**
@@ -45,14 +54,14 @@ export namespace Phantom {
    */
   export namespace Tag {
     /** Marker type for any tagged value */
-    export type Any = NamespaceTag.Any;
+    export type Any = TagCore.Any;
     /** Extract the tag from a type */
-    export type TagOf<T> = NamespaceTag.TagOf<T>;
+    export type TagOf<T> = TagCore.TagOf<T>;
     /** Check whether a type is tagged */
     export type HasTag<
       T,
       Ta extends string | symbol = string | symbol,
-    > = NamespaceTag.HasTag<T, Ta>;
+    > = TagCore.HasTag<T, Ta>;
   }
 
   /**
@@ -62,11 +71,11 @@ export namespace Phantom {
    */
   export namespace Variants {
     /** Marker type for variant-bearing values */
-    export type Any = NamespaceVariants.Any;
+    export type Any = VariantsCore.Any;
     /** Extract variant union */
-    export type VariantsOf<T> = NamespaceVariants.VariantsOf<T>;
+    export type VariantsOf<T> = VariantsCore.VariantsOf<T>;
     /** Check whether variants exist */
-    export type HasVariants<T> = NamespaceVariants.HasVariants<T>;
+    export type HasVariants<T> = VariantsCore.HasVariants<T>;
   }
 
   /**
@@ -77,11 +86,11 @@ export namespace Phantom {
    */
   export namespace Base {
     /** Marker type for base constraints */
-    export type Any = NamespaceBase.Any;
+    export type Any = BaseCore.Any;
     /** Extract the base type */
-    export type BaseOf<T> = NamespaceBase.BaseOf<T>;
+    export type BaseOf<T> = BaseCore.BaseOf<T>;
     /** Check whether a base constraint exists */
-    export type HasBase<T, B = unknown> = NamespaceBase.HasBase<T, B>;
+    export type HasBase<T, B = unknown> = BaseCore.HasBase<T, B>;
   }
 
   /**
@@ -91,11 +100,11 @@ export namespace Phantom {
    */
   export namespace Input {
     /** Marker type for input value */
-    export type Any = NamespaceInput.Any;
+    export type Any = InputCore.Any;
     /** Extract the input */
-    export type InputOf<T> = NamespaceInput.InputOf<T>;
+    export type InputOf<T> = InputCore.InputOf<T>;
     /** Check whether an input exists */
-    export type HasInput<T, I = unknown> = NamespaceInput.HasInput<T, I>;
+    export type HasInput<T, I = unknown> = InputCore.HasInput<T, I>;
   }
 
   /**
@@ -106,16 +115,16 @@ export namespace Phantom {
    */
   export namespace Traits {
     /** Marker type for trait-bearing values */
-    export type Any = NamespaceTraits.Any;
+    export type Any = TraitsCore.Any;
     /** Extract the trait map */
-    export type TraitsOf<T> = NamespaceTraits.TraitsOf<T>;
+    export type TraitsOf<T> = TraitsCore.TraitsOf<T>;
     /** Extract trait keys */
-    export type TraitKeysOf<T> = NamespaceTraits.TraitKeysOf<T>;
+    export type TraitKeysOf<T> = TraitsCore.TraitKeysOf<T>;
     /** Check if any traits exist */
     export type HasTraits<
       T,
       Tr extends string | symbol = string | symbol,
-    > = NamespaceTraits.HasTraits<T, Tr>;
+    > = TraitsCore.HasTraits<T, Tr>;
   }
 
   /**
@@ -126,18 +135,18 @@ export namespace Phantom {
    */
   export namespace Brand {
     /** Type guard for any brand. */
-    export type Any = NamespaceBrand.Any;
+    export type Any = BrandCore.Any;
     /** Declare a brand */
     export type Declare<
       T extends string | symbol,
       L extends string = never,
-    > = NamespaceBrand.Declare<T, L>;
+    > = BrandCore.Declare<T, L>;
     /** Assign a brand to a value. Fails if the value is already branded */
-    export type Assign<B extends Any, T> = NamespaceBrand.Assign<B, T>;
+    export type Assign<B extends Any, T> = BrandCore.Assign<B, T>;
     /** Assign a brand if possible, otherwise return the original type */
-    export type AssignSafe<B extends Any, T> = NamespaceBrand.AssignSafe<B, T>;
+    export type AssignSafe<B extends Any, T> = BrandCore.AssignSafe<B, T>;
     /** Check whether value is branded with */
-    export type isBrand<T, B extends Brand.Any> = NamespaceBrand.isBrand<T, B>;
+    export type isBrand<T, B extends Brand.Any> = BrandCore.isBrand<T, B>;
   }
 
   /**
@@ -149,36 +158,30 @@ export namespace Phantom {
    */
   export namespace Identity {
     /** Type guard for any identity. */
-    export type Any = NamespaceIdentity.Any;
+    export type Any = IdentityCore.Any;
     /** Declare an identity */
     export type Declare<
       T extends string | symbol,
       L extends string = never,
       B extends unknown = never,
       V extends string = never,
-    > = NamespaceIdentity.Declare<T, L, B, V>;
+    > = IdentityCore.Declare<T, L, B, V>;
     /** Assign an identity to a value. Enforces base-type compatibility */
-    export type Assign<I extends Any, T> = NamespaceIdentity.Assign<I, T>;
+    export type Assign<I extends Any, T> = IdentityCore.Assign<I, T>;
     /** Safe identity assignment */
-    export type AssignSafe<I extends Any, T> = NamespaceIdentity.AssignSafe<
-      I,
-      T
-    >;
+    export type AssignSafe<I extends Any, T> = IdentityCore.AssignSafe<I, T>;
     /** Set the active variant on an identity */
     export type WithVariant<
       I extends Any,
       V extends Variants.VariantsOf<I>,
-    > = NamespaceIdentity.WithVariant<I, V>;
+    > = IdentityCore.WithVariant<I, V>;
     /** Set the active variant on a value */
     export type WithTypeVariant<
       T,
       V extends Variants.VariantsOf<T>,
-    > = NamespaceIdentity.WithTypeVariant<T, V>;
+    > = IdentityCore.WithTypeVariant<T, V>;
     /** Check whether value is branded with */
-    export type isIdentity<T, I extends Any> = NamespaceIdentity.isIdentity<
-      T,
-      I
-    >;
+    export type isIdentity<T, I extends Any> = IdentityCore.isIdentity<T, I>;
   }
 
   /**
@@ -189,26 +192,25 @@ export namespace Phantom {
    */
   export namespace Trait {
     /** Type guard for any trait. */
-    export type Any = NamespaceTrait.Any;
+    export type Any = TraitCore.Any;
     /** Declare a trait */
-    export type Declare<Tr extends string | symbol> =
-      NamespaceTrait.Declare<Tr>;
+    export type Declare<Tr extends string | symbol> = TraitCore.Declare<Tr>;
     /** Add a trait */
-    export type Add<Tr extends Any, T> = NamespaceTrait.Add<Tr, T>;
+    export type Add<Tr extends Any, T> = TraitCore.Add<Tr, T>;
     /** Add multiple traits */
-    export type AddMulti<
-      Tr extends readonly Any[],
-      T,
-    > = NamespaceTrait.AddMulti<Tr, T>;
+    export type AddMulti<Tr extends readonly Any[], T> = TraitCore.AddMulti<
+      Tr,
+      T
+    >;
     /** Remove a trait */
-    export type Drop<Tr extends Any, T> = NamespaceTrait.Drop<Tr, T>;
+    export type Drop<Tr extends Any, T> = TraitCore.Drop<Tr, T>;
     /** Remove multiple traits */
-    export type DropMulti<
-      Tr extends readonly Any[],
-      T,
-    > = NamespaceTrait.DropMulti<Tr, T>;
+    export type DropMulti<Tr extends readonly Any[], T> = TraitCore.DropMulti<
+      Tr,
+      T
+    >;
     /** Check whether value has trait */
-    export type HasTrait<T, Tr extends Any> = NamespaceTrait.HasTrait<T, Tr>;
+    export type HasTrait<T, Tr extends Any> = TraitCore.HasTrait<T, Tr>;
   }
 
   /**
@@ -219,7 +221,7 @@ export namespace Phantom {
    */
   export namespace Transformation {
     /** Type guard for any transformation. */
-    export type Any = NamespaceTransformation.Any;
+    export type Any = TransformationCore.Any;
     /** Declare a transformation */
     export type Declare<
       I,
@@ -227,26 +229,26 @@ export namespace Phantom {
       L extends string = never,
       B extends unknown = never,
       V extends string = never,
-    > = NamespaceTransformation.Declare<I, T, L, B, V>;
+    > = TransformationCore.Declare<I, T, L, B, V>;
     /** Apply a transformation to a value. Enforces base-type compatibility */
-    export type Apply<Tr extends Any, I, T> = NamespaceTransformation.Apply<
+    export type Apply<Tr extends Any, I, T> = TransformationCore.Apply<
       Tr,
       I,
       T
     >;
     /** Revert a transformation */
-    export type Revert<Tr extends Any, T, I> = NamespaceTransformation.Revert<
+    export type Revert<Tr extends Any, T, I> = TransformationCore.Revert<
       Tr,
       T,
       I
     >;
     /** Revert a transformation whatever transformation was */
-    export type RevertAny<T, I> = NamespaceTransformation.RevertAny<T, I>;
+    export type RevertAny<T, I> = TransformationCore.RevertAny<T, I>;
     /** Check whether value is transformed with */
     export type isTransformed<
       T,
       Tr extends Any,
-    > = NamespaceTransformation.isTransformed<T, Tr>;
+    > = TransformationCore.isTransformed<T, Tr>;
   }
 
   /**
@@ -256,63 +258,60 @@ export namespace Phantom {
    */
   export namespace Inspect {
     /** Get phantom metadata object from a type */
-    export type PhantomOf<T> = NamespacePhantom.PhantomOf<T>;
+    export type PhantomOf<T> = PhantomCore.PhantomOf<T>;
     /** Stip phantom metadata object from a type */
-    export type StripPhantom<T> = NamespacePhantom.StripPhantom<T>;
+    export type StripPhantom<T> = PhantomCore.StripPhantom<T>;
     /** run-time helper for 'StringPhantom', used for debugging mainly */
-    export const stripPhantom = NamespacePhantom.stripPhantom;
+    export const stripPhantom = PhantomCore.stripPhantom;
     /** Extract the label */
-    export type LabelOf<T> = NamespaceLabel.LabelOf<T>;
+    export type LabelOf<T> = LabelCore.LabelOf<T>;
     /** Check whether a base constraint exists */
-    export type HasLabel<
+    export type HasLabel<T, L extends string = string> = LabelCore.HasLabel<
       T,
-      L extends string = string,
-    > = NamespaceLabel.HasLabel<T, L>;
+      L
+    >;
     /** Extract the tag from a type */
-    export type TagOf<T> = NamespaceTag.TagOf<T>;
+    export type TagOf<T> = TagCore.TagOf<T>;
     /** Check whether a type is tagged */
     export type HasTag<
       T,
       Ta extends string | symbol = string | symbol,
-    > = NamespaceTag.HasTag<T, Ta>;
+    > = TagCore.HasTag<T, Ta>;
     /** Extract variant union */
-    export type VariantsOf<T> = NamespaceVariants.VariantsOf<T>;
+    export type VariantsOf<T> = VariantsCore.VariantsOf<T>;
     /** Check whether variants exist */
-    export type HasVariants<T> = NamespaceVariants.HasVariants<T>;
+    export type HasVariants<T> = VariantsCore.HasVariants<T>;
     /** Extract the base type */
-    export type BaseOf<T> = NamespaceBase.BaseOf<T>;
+    export type BaseOf<T> = BaseCore.BaseOf<T>;
     /** Check whether a base constraint exists */
-    export type HasBase<T, B = unknown> = NamespaceBase.HasBase<T, B>;
+    export type HasBase<T, B = unknown> = BaseCore.HasBase<T, B>;
     /** Extract the input */
-    export type InputOf<T> = NamespaceInput.InputOf<T>;
+    export type InputOf<T> = InputCore.InputOf<T>;
     /** Check whether an input exists */
-    export type HasInput<T, I = unknown> = NamespaceInput.HasInput<T, I>;
+    export type HasInput<T, I = unknown> = InputCore.HasInput<T, I>;
     /** Extract the trait map */
-    export type TraitsOf<T> = NamespaceTraits.TraitsOf<T>;
+    export type TraitsOf<T> = TraitsCore.TraitsOf<T>;
     /** Extract trait keys */
-    export type TraitKeysOf<T> = NamespaceTraits.TraitKeysOf<T>;
+    export type TraitKeysOf<T> = TraitsCore.TraitKeysOf<T>;
     /** Check if any traits exist */
     export type HasTraits<
       T,
       Tr extends string | symbol = string | symbol,
-    > = NamespaceTraits.HasTraits<T, Tr>;
+    > = TraitsCore.HasTraits<T, Tr>;
     /** Check whether value is branded with */
-    export type isBrand<T, B extends Brand.Any> = NamespaceBrand.isBrand<T, B>;
+    export type isBrand<T, B extends Brand.Any> = BrandCore.isBrand<T, B>;
     /** Check whether value is branded with */
-    export type isIdentity<
+    export type isIdentity<T, I extends Identity.Any> = IdentityCore.isIdentity<
       T,
-      I extends Identity.Any,
-    > = NamespaceIdentity.isIdentity<T, I>;
-    /** Check whether value has trait */
-    export type HasTrait<T, Tr extends Trait.Any> = NamespaceTrait.HasTrait<
-      T,
-      Tr
+      I
     >;
+    /** Check whether value has trait */
+    export type HasTrait<T, Tr extends Trait.Any> = TraitCore.HasTrait<T, Tr>;
     /** Check whether value is transformed with */
     export type isTransformed<
       T,
       Tr extends Transformation.Any,
-    > = NamespaceTransformation.isTransformed<T, Tr>;
+    > = TransformationCore.isTransformed<T, Tr>;
   }
 
   /** --------------------------------------
@@ -330,7 +329,7 @@ export namespace Phantom {
      * @template B - The brand declaration to assign.
      * @returns A function that casts any value to the branded type.
      */
-    export const asBrand = NamespaceAssertors.asBrand;
+    export const asBrand = _asBrand;
 
     /**
      * Creates a typed caster that assigns an {@link Identity} to a value.
@@ -342,7 +341,7 @@ export namespace Phantom {
      * @template I - The identity declaration to assign.
      * @returns A function that casts any value to the assigned identity type.
      */
-    export const asIdentity = NamespaceAssertors.asIdentity;
+    export const asIdentity = _asIdentity;
 
     /**
      * Creates a typed caster that adds a single {@link Trait} to a value.
@@ -352,7 +351,7 @@ export namespace Phantom {
      * @template Tr - The trait declaration to add.
      * @returns A function that adds the trait to any value.
      */
-    export const addTrait = NamespaceAssertors.addTrait;
+    export const addTrait = _addTrait;
 
     /**
      * Creates a typed caster that adds multiple {@link Trait}s to a value.
@@ -362,7 +361,7 @@ export namespace Phantom {
      * @template Tr - Tuple of trait declarations to add.
      * @returns A function that adds all traits to any value.
      */
-    export const addTraits = NamespaceAssertors.addTraits;
+    export const addTraits = _addTraits;
 
     /**
      * Creates a typed caster that removes a single {@link Trait} from a value.
@@ -372,7 +371,7 @@ export namespace Phantom {
      * @template Tr - The trait declaration to remove.
      * @returns A function that drops the trait from any value.
      */
-    export const dropTrait = NamespaceAssertors.dropTrait;
+    export const dropTrait = _dropTrait;
 
     /**
      * Creates a typed caster that removes multiple {@link Trait}s from a value.
@@ -382,7 +381,7 @@ export namespace Phantom {
      * @template Tr - Tuple of trait declarations to remove.
      * @returns A function that drops all specified traits from any value.
      */
-    export const dropTraits = NamespaceAssertors.dropTraits;
+    export const dropTraits = _dropTraits;
 
     /**
      * Creates a typed applicator for a {@link Transformation}.
@@ -395,7 +394,7 @@ export namespace Phantom {
      * @template Tr - The transformation declaration.
      * @returns A function that applies the transformation while preserving the input type for later revert.
      */
-    export const applyTransformation = NamespaceAssertors.applyTransformation;
+    export const applyTransformation = _applyTransformation;
 
     /**
      * Creates a typed reverter for a {@link Transformation}.
@@ -409,19 +408,110 @@ export namespace Phantom {
      * @template Tr - The transformation declaration.
      * @returns A function that reverts the transformation, stripping phantom metadata.
      */
-    export const revertTransformation = NamespaceAssertors.revertTransformation;
+    export const revertTransformation = _revertTransformation;
   }
+
+  /**
+   * Creates a typed caster that assigns a {@link Brand} to a value.
+   *
+   * This is a zero-cost runtime assertion helper — it simply returns the value
+   * with the brand's nominal type applied. Use it for simple branded primitives
+   * where you know the value is valid.
+   *
+   * @template B - The brand declaration to assign.
+   * @returns A function that casts any value to the branded type.
+   */
+  export const asBrand = _asBrand;
+
+  /**
+   * Creates a typed caster that assigns an {@link Identity} to a value.
+   *
+   * This is a zero-cost runtime assertion helper — it simply returns the value
+   * with the identity's nominal type applied. Use it when you know a value
+   * conforms to an identity but need to assert it for the type system.
+   *
+   * @template I - The identity declaration to assign.
+   * @returns A function that casts any value to the assigned identity type.
+   */
+  export const asIdentity = _asIdentity;
+
+  /**
+   * Creates a typed caster that adds a single {@link Trait} to a value.
+   *
+   * Zero-runtime-cost assertion helper.
+   *
+   * @template Tr - The trait declaration to add.
+   * @returns A function that adds the trait to any value.
+   */
+  export const addTrait = _addTrait;
+
+  /**
+   * Creates a typed caster that adds multiple {@link Trait}s to a value.
+   *
+   * Zero-runtime-cost assertion helper.
+   *
+   * @template Tr - Tuple of trait declarations to add.
+   * @returns A function that adds all traits to any value.
+   */
+  export const addTraits = _addTraits;
+
+  /**
+   * Creates a typed caster that removes a single {@link Trait} from a value.
+   *
+   * Zero-runtime-cost assertion helper.
+   *
+   * @template Tr - The trait declaration to remove.
+   * @returns A function that drops the trait from any value.
+   */
+  export const dropTrait = _dropTrait;
+
+  /**
+   * Creates a typed caster that removes multiple {@link Trait}s from a value.
+   *
+   * Zero-runtime-cost assertion helper.
+   *
+   * @template Tr - Tuple of trait declarations to remove.
+   * @returns A function that drops all specified traits from any value.
+   */
+  export const dropTraits = _dropTraits;
+
+  /**
+   * Creates a typed applicator for a {@link Transformation}.
+   *
+   * Use this for "forward" operations (e.g., encrypt, encode, wrap).
+   * The `input` parameter is only used for type inference — it is not used at runtime.
+   *
+   * Zero-runtime-cost assertion helper.
+   *
+   * @template Tr - The transformation declaration.
+   * @returns A function that applies the transformation while preserving the input type for later revert.
+   */
+  export const applyTransformation = _applyTransformation;
+
+  /**
+   * Creates a typed reverter for a {@link Transformation}.
+   *
+   * Use this for "reverse" operations (e.g., decrypt, decode, unwrap).
+   * The `transformed` parameter is used for type inference of the expected input,
+   * and `input` is the computed result that must match the stored input type.
+   *
+   * Zero-runtime-cost assertion helper.
+   *
+   * @template Tr - The transformation declaration.
+   * @returns A function that reverts the transformation, stripping phantom metadata.
+   */
+  export const revertTransformation = _revertTransformation;
 
   /** --------------------------------------
    * Phantom object manipulators
    * --------------------------------------- */
 
   /** Get phantom metadata object from a type */
-  export type PhantomOf<T> = NamespacePhantom.PhantomOf<T>;
+  export type PhantomOf<T> = PhantomCore.PhantomOf<T>;
   /** Stip phantom metadata object from a type */
-  export type StripPhantom<T> = NamespacePhantom.StripPhantom<T>;
+  export type StripPhantom<T> = PhantomCore.StripPhantom<T>;
   /** run-time helper for 'StringPhantom', used for debugging mainly */
-  export const stripPhantom = NamespacePhantom.stripPhantom;
+  export const stripPhantom = PhantomCore.stripPhantom;
 
   /** --------------------------------------
    * Error type

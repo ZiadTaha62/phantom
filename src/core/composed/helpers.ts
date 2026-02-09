@@ -1,18 +1,21 @@
-import type { Phantom } from '../core';
+import type { PhantomCore } from '../phantom';
 
 /** --------------------------------------
- * Phantom type helpers
+ * PhantomCore type helpers
  * --------------------------------------- */
 
 /**
  * Attach or override phantom metadata while preserving
  * the original runtime type.
  */
-export type WithMetadata<T, Change extends object> = Phantom.StripPhantom<T> & {
+export type WithMetadata<
+  T,
+  Change extends object,
+> = PhantomCore.StripPhantom<T> & {
   __Phantom: Prettify<
     Merge<
-      IfNever<Phantom.PhantomOf<T>>,
-      Omit<IfNever<Phantom.PhantomOf<Change>>, '__Base'> & SetType<T>
+      IfNever<PhantomCore.PhantomOf<T>>,
+      Omit<IfNever<PhantomCore.PhantomOf<Change>>, '__Base'> & SetType<T>
     >
   >;
 };
@@ -23,15 +26,21 @@ export type WithMetadata<T, Change extends object> = Phantom.StripPhantom<T> & {
  */
 export type PatchMetadata<T, Change extends object> = {
   __Phantom: Prettify<
-    Merge<IfNever<Phantom.PhantomOf<T>>, IfNever<Phantom.PhantomOf<Change>>>
+    Merge<
+      IfNever<PhantomCore.PhantomOf<T>>,
+      IfNever<PhantomCore.PhantomOf<Change>>
+    >
   >;
 };
 
 /**
  * Remove a metadata dimension while preserving the original type.
  */
-export type WithoutMetadata<T, S extends string> = Phantom.StripPhantom<T> & {
-  __Phantom: Prettify<Omit<IfNever<Phantom.PhantomOf<T>>, S> & SetType<T>>;
+export type WithoutMetadata<
+  T,
+  S extends string,
+> = PhantomCore.StripPhantom<T> & {
+  __Phantom: Prettify<Omit<IfNever<PhantomCore.PhantomOf<T>>, S> & SetType<T>>;
 };
 
 /**
@@ -39,7 +48,7 @@ export type WithoutMetadata<T, S extends string> = Phantom.StripPhantom<T> & {
  * Intended for internal cleanup.
  */
 export type StripMetadata<T, S extends string> = {
-  __Phantom: Prettify<Omit<IfNever<Phantom.PhantomOf<T>>, S>>;
+  __Phantom: Prettify<Omit<IfNever<PhantomCore.PhantomOf<T>>, S>>;
 };
 
 /**
@@ -47,7 +56,7 @@ export type StripMetadata<T, S extends string> = {
  */
 export type HandleOriginalType<T> =
   Equals<
-    Omit<Phantom.StripPhantom<T>, never>,
+    Omit<PhantomCore.StripPhantom<T>, never>,
     Omit<T, '__Phantom'>
   > extends true
     ? T

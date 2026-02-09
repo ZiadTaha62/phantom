@@ -1,4 +1,4 @@
-import type { Identity } from '../types';
+import type { Identity } from '../core';
 
 /**
  * Creates a typed caster that assigns an {@link Identity} to a value.

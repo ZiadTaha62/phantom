@@ -4,7 +4,7 @@
  * Tags uniquely identify a branded or identified type.
  * A value may only have a single tag.
  */
-export namespace Tag {
+export namespace TagCore {
   /** Marker type for any tagged value */
   export type Any = {
     __Phantom: { __Tag: string | symbol };

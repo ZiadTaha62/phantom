@@ -4,7 +4,7 @@
  * Traits behave like a set of capabilities that can be
  * added or removed independently.
  */
-export namespace Traits {
+export namespace TraitsCore {
   /** Marker type for trait-bearing values */
   export type Any = {
     __Phantom: { __Traits: {} };

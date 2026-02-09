@@ -1,4 +1,4 @@
-import type { Brand } from '../types';
+import type { Brand } from '../core';
 
 /**
  * Creates a typed caster that assigns a {@link Brand} to a value.

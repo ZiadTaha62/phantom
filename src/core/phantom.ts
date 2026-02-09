@@ -3,7 +3,7 @@
  *
  * Phantom matadata object holds all metadata used by 'phantom'.
  */
-export namespace Phantom {
+export namespace PhantomCore {
   /** Get phantom metadata object from a type */
   export type PhantomOf<T> = T extends {
     __Phantom: infer Phantom extends object;

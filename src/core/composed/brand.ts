@@ -1,4 +1,4 @@
-import type { Label as NamespaceLabel, Tag as NamespaceTag } from '../core';
+import type { LabelCore, TagCore } from '../fields';
 import type { ErrorType, Errors } from '../errors';
 import type { HandleOriginalType, Prettify, WithMetadata } from './helpers';
 
@@ -8,15 +8,15 @@ import type { HandleOriginalType, Prettify, WithMetadata } from './helpers';
  * Brands provide nominal typing for otherwise identical values.
  * A value may only be branded once.
  */
-export namespace Brand {
+export namespace BrandCore {
   /** Type guard for any brand. */
-  export type Any = NamespaceTag.Of<string | symbol>;
+  export type Any = TagCore.Of<string | symbol>;
 
   /** Declare a brand */
   export type Declare<
     T extends string | symbol,
     L extends string = never,
-  > = Prettify<NamespaceTag.Of<T> & NamespaceLabel.OfIfExists<L>>;
+  > = Prettify<TagCore.Of<T> & LabelCore.OfIfExists<L>>;
 
   /**
    * Assign a brand to a value.
@@ -27,7 +27,7 @@ export namespace Brand {
 
   /** Internal implementation of 'Brand.Assign' */
   type _Assign<B extends Any, T> =
-    NamespaceTag.HasTag<T> extends true
+    TagCore.HasTag<T> extends true
       ? ErrorType<Errors<B, T>['alreadyBranded']>
       : WithMetadata<T, B>;
 
@@ -39,7 +39,7 @@ export namespace Brand {
 
   /** Internal implementation of 'Brand.AssignSafe' */
   type _AssignSafe<B extends Any, T> =
-    NamespaceTag.HasTag<T> extends true ? T : WithMetadata<T, B>;
+    TagCore.HasTag<T> extends true ? T : WithMetadata<T, B>;
 
   /** Check whether value is branded with */
   export type isBrand<T, B extends Any> = T extends B ? true : false;

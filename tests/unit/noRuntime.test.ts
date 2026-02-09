@@ -1,4 +1,4 @@
-import { Phantom } from '../../src';
+import { Phantom } from '../../dist';
 
 describe('Zero runtime effect of assertors', () => {
   test('Brand', () => {

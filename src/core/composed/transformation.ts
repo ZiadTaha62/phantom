@@ -1,11 +1,10 @@
 import type {
-  Input,
-  Base as NamespaceBase,
-  Input as NamespaceInput,
-  Label as NamespaceLabel,
-  Tag as NamespaceTag,
-  Variants as NamespaceVariants,
-} from '../core';
+  InputCore,
+  BaseCore,
+  LabelCore,
+  TagCore,
+  VariantsCore,
+} from '../fields';
 import type { ErrorType, Errors } from '../errors';
 import type {
   HandleOriginalType,
@@ -20,9 +19,9 @@ import type {
  * Transformations represent reversible operations that
  * change the shape of a value while preserving its origin.
  */
-export namespace Transformation {
+export namespace TransformationCore {
   /** Type guard for any transformation. */
-  export type Any = NamespaceInput.Of<any> & NamespaceTag.Of<string | symbol>;
+  export type Any = InputCore.Of<any> & TagCore.Of<string | symbol>;
 
   /** Declare a transformation */
   export type Declare<
@@ -32,11 +31,11 @@ export namespace Transformation {
     B extends unknown = never,
     V extends string = never,
   > = Prettify<
-    NamespaceInput.Of<I> &
-      NamespaceTag.Of<T> &
-      NamespaceLabel.OfIfExists<L> &
-      NamespaceBase.OfIfExists<B> &
-      NamespaceVariants.OfIfExists<V>
+    InputCore.Of<I> &
+      TagCore.Of<T> &
+      LabelCore.OfIfExists<L> &
+      BaseCore.OfIfExists<B> &
+      VariantsCore.OfIfExists<V>
   >;
 
   /**
@@ -48,10 +47,10 @@ export namespace Transformation {
 
   /** Internal implementation of 'Transformation.Apply' */
   type _Apply<Tr extends Any, I, T> =
-    NamespaceTag.HasTag<T> extends true
+    TagCore.HasTag<T> extends true
       ? ErrorType<Errors<I, T>['alreadyBranded']>
-      : T extends NamespaceBase.BaseOf<I>
-        ? WithMetadata<T, PatchMetadata<Tr, Input.Of<I>>>
+      : T extends BaseCore.BaseOf<I>
+        ? WithMetadata<T, PatchMetadata<Tr, InputCore.Of<I>>>
         : ErrorType<Errors<I, T>['typeNotExtendBase']>;
 
   /** Revert a transformation */
@@ -60,9 +59,9 @@ export namespace Transformation {
 
   /** Internal implementation of 'Transformation.Revert' */
   type _Revert<Tr extends Any, T, I> =
-    NamespaceInput.HasInput<T> extends true
+    InputCore.HasInput<T> extends true
       ? T extends Tr
-        ? NamespaceInput.InputOf<T>
+        ? InputCore.InputOf<T>
         : ErrorType<Errors<Tr, T>['transformationMismatch']>
       : ErrorType<Errors<never, T>['notTransformed']>;
 
@@ -72,8 +71,8 @@ export namespace Transformation {
 
   /** Internal implementation of 'Transformation.RevertAny' */
   type _RevertAny<T> =
-    NamespaceInput.HasInput<T> extends true
-      ? NamespaceInput.InputOf<T>
+    InputCore.HasInput<T> extends true
+      ? InputCore.InputOf<T>
       : ErrorType<Errors<never, T>['notTransformed']>;
 
   /** Check whether value is transformed with */

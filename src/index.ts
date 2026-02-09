@@ -1,4 +1,14 @@
-export { assertors } from './assertors';
+export {
+  assertors,
+  addTrait,
+  addTraits,
+  applyTransformation,
+  asBrand,
+  asIdentity,
+  dropTrait,
+  dropTraits,
+  revertTransformation,
+} from './assertors';
 export { PhantomChain } from './chain';
 export { Phantom } from './phantom';
 export type {
@@ -9,12 +19,12 @@ export type {
   Input,
   Inspect,
   Label,
-  Phantom as PhantomCore,
+  PhantomCore,
   Tag,
   Trait,
   Traits,
   Transformation,
   Variants,
-} from './types';
+} from './core';
 import { Phantom } from './phantom';
 export default Phantom;

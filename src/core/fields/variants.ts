@@ -3,7 +3,7 @@
  *
  * Variants represent mutually exclusive states of a type.
  */
-export namespace Variants {
+export namespace VariantsCore {
   /** Marker type for variant-bearing values */
   export type Any = {
     __Phantom: { __Variants: string };

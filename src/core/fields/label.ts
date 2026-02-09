@@ -3,7 +3,7 @@
  *
  * Labels are descriptive only and do not affect identity.
  */
-export namespace Label {
+export namespace LabelCore {
   /** Marker type for labeled values */
   export type Any = {
     __Phantom: { __Label?: string };

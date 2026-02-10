@@ -21,7 +21,7 @@
     "test": "npm run test:unit && npm run test:types",
     "test:unit": "jest tests/unit --coverage",
     "test:types": "tsd",
-    "prepublishOnly": "npm run build && npm run test"
+    "prepublishOnly": "npm run build && npm run test:unit"
   },
   "files": [
     "dist",

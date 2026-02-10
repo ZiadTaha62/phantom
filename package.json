@@ -17,6 +17,7 @@
     "dev": "tsup --watch",
     "lint": "eslint --fix",
     "format": "prettier --write",
+    "typecheck": "tsc --noEmit",
     "test": "jest tests && tsd",
     "test:unit": "jest tests/unit --coverage",
     "test:types": "tsd",

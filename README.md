@@ -1,5 +1,10 @@
 # Phantom
 
+[![npm version](https://img.shields.io/npm/v/@vicin/phantom.svg)](https://www.npmjs.com/package/@vicin/phantom) [![npm downloads](https://img.shields.io/npm/dm/@vicin/phantom.svg)](https://www.npmjs.com/package/@vicin/phantom) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) ![TypeScript](https://img.shields.io/badge/TypeScript-5.0%2B-blue) [![Build](https://github.com/ZiadTaha62/phantom/actions/workflows/ci.yml/badge.svg)](https://github.com/ZiadTaha62/phantom/actions/workflows/ci.yml)
+
+> - 🎉 First stable release — v1.0! Happy coding! 😄💻
+> - 📄 **Changelog:** [CHANGELOG.md](./CHANGELOG.md)
+
 `Phantom` is a powerful, lightweight TypeScript library for nominal typing. it uses **type-only** metadata object that can be attached to any type with clean IDE. It enables compile-time distinctions between structurally identical types (e.g., `Email` vs. `Username` as branded strings) while supporting advanced features like **constrained identities**,**state variants**, **additive traits**, and **reversible transformations**. making it ideal for domain-driven design (DDD), APIs, and type-safe primitives with minimal performance overhead.
 
 ---
@@ -9,6 +14,8 @@
 - [Features](#features)
 - [Install](#install)
 - [Core concepts](#core-concepts)
+  - [Terminology](#terminology)
+  - [\_\_Phantom object](#__phantom-object)
 - [Type constructs](#type-constructs)
   - [Branding](#branding)
   - [Identities with constraints](#identities-with-constraints)
@@ -868,6 +875,18 @@ function hash<V>(value: V) {
 Any contributions you make are **greatly appreciated**.
 
 Please see our [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+### Reporting bugs
+
+If you encounter a bug:
+
+- 1. Check existing issues first
+- 2. Open a new issue with:
+  - Minimal reproduction
+  - Expected vs actual behavior
+  - Environment (Node, TS version)
+
+Bug reports help improve Sigil — thank you! 🙏
 
 ## License
 

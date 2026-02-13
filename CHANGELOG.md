@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.0] - 2026-02-10
+## [1.1.1] - 2026-02-13
+
+### Changed
+
+- `StripPhantom` works on declarations (`Identity.Declare<>` ,`Trait.Declare<>` and `Transformation.Declare<>`), returns `unknown` if `__Base?` is not defined.
+
+## [1.1.0] - 2026-02-13
 
 ### Added
 

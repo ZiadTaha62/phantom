@@ -1,9 +1,15 @@
 /** Stip phantom metadata object from a type */
 type StripPhantom<T> = T extends {
-  __Phantom: { __OriginalType?: infer O };
+  __Phantom: { __OriginalType?: infer O }; // If type result from ( .Assign / .Add / .Apply )
 }
   ? Exclude<O, undefined>
-  : T;
+  : T extends {
+        __Phantom: { __Base?: infer B }; // If type result from ( Identity.Declare / Transformation.Declare )
+      }
+    ? Exclude<B, undefined>
+    : T extends { __Phantom: object } // If type result from ( Trait.Declare )
+      ? unknown
+      : T;
 
 /** run-time helper for 'StringPhantom', used for debugging mainly */
 export const stripPhantom = <T>(value: T): StripPhantom<T> => value as any;

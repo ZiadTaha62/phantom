@@ -5,7 +5,7 @@
 > - 🎉 First stable release — v1.0! Happy coding! 😄💻
 > - 📄 **Changelog:** [CHANGELOG.md](./CHANGELOG.md)
 
-`Phantom` is a powerful, lightweight TypeScript library for nominal typing. it uses **type-only** metadata object that can be attached to any type with clean IDE. It enables compile-time distinctions between structurally identical types (e.g., `Email` vs. `Username` as branded strings) while supporting advanced features like **constrained identities**,**state variants**, **additive traits**, and **reversible transformations**. making it ideal for domain-driven design (DDD), APIs, and type-safe primitives with minimal performance overhead.
+`Phantom` is a powerful, lightweight TypeScript library for nominal typing. it uses **type-only** metadata object that can be attached to any type with clean IDE. It enables compile-time distinctions between structurally identical types (e.g., `Email` vs. `Username` as branded strings) while supporting advanced features like **constrained identities**,**state variants**, **additive traits**, and **reversible transformations**. making it ideal for domain-driven design (DDD), APIs, and type-safe primitives with near zero performance overhead.
 
 ---
 
@@ -17,7 +17,6 @@
   - [Terminology](#terminology)
   - [\_\_Phantom object](#__phantom-object)
 - [Type constructs](#type-constructs)
-  - [Branding](#branding)
   - [Identities with constraints](#identities-with-constraints)
   - [Traits (additive capabilities)](#traits-additive-capabilities)
   - [Transformations (Type pipe-like behavior)](#transformations-type-pipe-like-behavior)
@@ -29,6 +28,7 @@
 - [Debugging](#debugging)
 - [API reference](#api-reference)
 - [Full examples](#full-examples)
+- [Deprecated API](#deprecated-api)
 - [Sigil](#sigil)
 - [Contributing](#contributing)
 - [License](#license)
@@ -101,6 +101,7 @@ type X = string & {
   __Phantom: {
     __Tag: 'X';
     __Label?: 'Label of X';
+    __Base?: string;
     __Variants: 'Variant1' | 'Variant2';
     __Traits: {
       trait1: true;
@@ -118,6 +119,8 @@ From the first glance you can spot that`Phantom` is designed to separate origina
 
 - **\_\_Label?:** Optional label describing this nominal identity.
 
+- **\_\_Base?:** Optional constraint to nominal identity, so only values that extend this type can be branded.
+
 - **\_\_Variants:** Optional states of the nominal identity.
 
 - **\_\_Traits:** Additional properties the type holds, unlike `__Tag` that tells who `__Traits` tell what this type hold or can do (e.g. `Validated`, `PII` etc...).
@@ -132,51 +135,6 @@ More details of these properties will be discussed later.
 
 ## Type constructs
 
-### Branding
-
-Use brands for simple nominal distinctions on primitives.
-
-#### Structure
-
-**`Brand.Declare<Tag, Label?>`**
-
-- **Tag:** Unique identifier which can string or symbol.
-- **Label?:** Optional label description. can be set to `never`.
-
-#### Basic example
-
-```ts
-import { Phantom } from '@vicin/phantom';
-
-// Declare a brand
-type UserId = Phantom.Brand.Declare<'UserId', 'Unique user identifier'>;
-
-// Assertor for assigning the brand
-const asUserId = Phantom.assertors.asBrand<UserId>();
-
-// Usage
-const id: string = '123';
-const userId = asUserId(id); // type: string & { __Phantom: { __Tag: "UserId"; __Label?: "Unique user identifier"; __OriginalType: string; } }
-
-// Type safety: prevents assignment
-let postId: string = 'abc';
-postId = userId; // Type error: 'UserId' is not assignable to unbranded string
-```
-
-#### Re-brand
-
-Branding already branded value is prohibited and results in Error type:
-
-```ts
-const value = '123';
-
-// Branding string as UserId
-const userId = asUserId(value);
-
-// Trying to brand userId as PostId returns type error
-const postId = asPostId(userId); // type: Flow.TypeError<{ code: "ALREADY_BRANDED"; message: "Type already branded"; context: { type: <userId type>; }; }>
-```
-
 ---
 
 ### Identities with constraints
@@ -189,7 +147,8 @@ const postId = asPostId(userId); // type: Flow.TypeError<{ code: "ALREADY_BRANDE
 
 - **Tag:** Unique identifier which can string or symbol.
 - **Label?:** Optional label description. can be set to `never`.
-- **Base?:** Optional base that constrains identity so only `string` for example can be casted as `Email`. can be set to `never`.
+- **Base?:** Optional base that constrains identity so only `string` for example can be casted as `Email`. can be set to `never` or `unknown`.
+  Type passed is also added to declared `Identity` (`<Base> & <PhantomObject>`).
 - **Variants?:** Optional variants (states) of the identity. can be set to `never`.
 
 #### Basic example
@@ -320,7 +279,8 @@ Type identity is `Transformed` and stores `Input` under special field inside `__
 - **Input:** Type input to the transformation.
 - **Tag:** Unique identifier of transformed which can string or symbol.
 - **Label?:** Optional label description of transformed. can be set to `never`.
-- **Base?:** Optional base that constrains identity of transformed so only `Uint8Array` for example can be casted as `Encoded`. can be set to `never`.
+- **Base?:** Optional base that constrains identity of transformed so only `Uint8Array` for example can be casted as `Encoded`. can be set to `never` or `unknown`.
+  Type passed is also added to declared `Transformation` (`<Base> & <PhantomObject>`).
 - **Variants?:** Optional variants (states) of the identity. can be set to `never`.
 
 #### Basic example
@@ -394,7 +354,7 @@ When passed value violate specific rule, descripted `ErrorType` is returned.
 
 **ErrorTypes:**
 
-- **ALREADY_BRANDED:** Error returned if already branded value (with either `Brand` or `Identity`) is passed to `.Assign<>` again.
+- **ALREADY_BRANDED:** Error returned if already branded value (with `Identity`) is passed to `.Assign<>` again.
 
 - **TYPE_NOT_EXTEND_BASE:** Error returned if type not extend `Base` constraint of `Identity`.
 
@@ -402,7 +362,7 @@ When passed value violate specific rule, descripted `ErrorType` is returned.
 
 - **NOT_TRANSFORMED:** Error returned if you tried to revert a non-transformed type.
 
-All the types inside `Phantom` check for `ErrorType` first before applying any change, so if you tried to pass `ErrorType` to `Brand.Assign<>` or `asBrand<B>()` for example the error will return unchanged.
+All the types inside `Phantom` check for `ErrorType` first before applying any change, so if you tried to pass `ErrorType` to `Identity.Assign<>` or `asIdentity<B>()` for example the error will return unchanged.
 
 ---
 
@@ -415,7 +375,7 @@ import { Phantom } from '@vicin/phantom';
 
 // type
 declare const __UserId: unique symbol;
-type UserId = Phantom.Brand.Declare<typeof __UserId, 'User id'>;
+type UserId = Phantom.Identity.Declare<typeof __UserId, 'User id'>;
 
 // assertor
 export const asUserId = Phantom.assertors.asBrand<UserId>();
@@ -430,11 +390,11 @@ Now `UserId` can't be re-defined anywhere else in the codebase.
 Some devs (including me) may find `Phantom` namespace everywhere repetitive and prefer using `Brand` or `assertors` directly, every namespace under `Phantom` can be imported alone:
 
 ```ts
-import { Brand, assertors } from '@vicin/phantom';
+import { Identity, assertors } from '@vicin/phantom';
 
 // type
 declare const __UserId: unique symbol; // declare type only unique symbol to be our tag
-type UserId = Brand.Declare<typeof __UserId, 'User id'>;
+type UserId = Identity.Declare<typeof __UserId, 'User id'>;
 
 // assertor
 export const asUserId = assertors.asBrand<UserId>();
@@ -447,13 +407,13 @@ import P from '@vicin/phantom';
 
 // type
 declare const __UserId: unique symbol; // declare type only unique symbol to be our tag
-type UserId = P.Brand.Declare<typeof __UserId, 'User id'>;
+type UserId = P.Identity.Declare<typeof __UserId, 'User id'>;
 
 // assertor
 export const asUserId = P.assertors.asBrand<UserId>();
 ```
 
-Also you can import single assertor function:
+Also you can import single run-time function as `assertor functions` and `stripPhantom` function:
 
 ```ts
 import { asBrand } from '@vicin/phantom';
@@ -470,9 +430,9 @@ You are free to pick whatever pattern you are comfortable with.
 If you need to call multiple assertors on a single value (e.g. mark brand and attach two traits) the code can get messy:
 
 ```ts
-import { Brand, Trait, assertors } from '@vicin/phantom';
+import { Identity, Trait, assertors } from '@vicin/phantom';
 
-type UserId = Brand.Declare<'UserId'>;
+type UserId = Identity.Declare<'UserId', 'User id', string>;
 const asUserId = assertors.asBrand<UserId>();
 
 type PII = Trait.Declare<'PII'>;
@@ -507,17 +467,6 @@ The `.with()` is order sensitive, so previous example is equivalent to `addValid
 ## Hot-path code ( truly type-only pattern )
 
 In hot-path code every function call matters, and although assertor functions makes code much cleaner but you may prefer to use `as` in performance critical situations so `Phantom` lives in type system entirely and have zero run-time trace, these examples defines best practices to do so:
-
-**Brand**:
-
-```ts
-import { Brand } from '@vicin/phantom';
-
-type UserId = Brand.Declare<'UserId'>;
-type AsUserId<T> = Brand.Assign<UserId, T>;
-
-const userId = '123' as AsUserId<string>;
-```
 
 **Identity**:
 
@@ -568,10 +517,10 @@ function decode<E extends Encoded>(encoded: E) {
 Chaining is not supported in **type-only pattern** and nesting is the only way to reliably calculate types:
 
 ```ts
-import { Brand, Trait, assertors } from '@vicin/phantom';
+import { Identity, Trait, assertors } from '@vicin/phantom';
 
-type UserId = Brand.Declare<'UserId'>;
-type AsUserId<T> = Brand.Assign<UserId, T>;
+type UserId = Identity.Declare<'UserId', 'User id', string>;
+type AsUserId<T> = Identity.Assign<UserId, T>;
 
 type PII = Trait.Declare<'PII'>;
 type AddPII<T> = Trait.Add<PII, T>;
@@ -635,13 +584,6 @@ These handle individual metadata fields in the `__Phantom` object.
 
 These provide nominal typing and metadata operations.
 
-- **Brand:** Simple nominal branding.
-  - `Any`: Marker for branded types.
-  - `Declare<T, L>`: Declare a brand with tag `T` and optional label `L`.
-  - `Assign<B, T>`: Assign brand `B` to `T` (fails if already branded).
-  - `AssignSafe<B, T>`: Assign if possible, else return `T`.
-  - `isBrand<T, B>`: Check if `T` is branded with `B`.
-
 - **Identity**: Brands with bases and variants.
   - `Any`: Marker for identity types.
   - `Declare<T, L, B, V>`: Declare identity with tag `T`, label `L`, base `B`, variants `V`.
@@ -682,7 +624,6 @@ Aliases for core and feature extractors: `LabelOf<T>`, `HasLabel<T, L>`, `TagOf<
 
 Zero-cost casting functions.
 
-`asBrand<B>()`: Assign brand `B`.
 `asIdentity<I>()`: Assign identity `I`.
 `addTrait<Tr>()`: Add trait `Tr`.
 `addTraits<Tr[]>()`: Add multiple traits `Tr[]`.
@@ -705,10 +646,10 @@ Zero-cost casting functions.
 Defining brands and identities at our app entry points after validation:
 
 ```ts
-import { Brand, assertors } from '@vicin/phantom';
+import { Identity, assertors } from '@vicin/phantom';
 
 declare const __UserId: unique symbol;
-type UserId = Brand.Declare<typeof __UserId, 'UserId'>;
+type UserId = Identity.Declare<typeof __UserId, 'UserId', string>;
 const asUserId = assertors.asBrand<UserId>();
 
 function validateUserId(userId: string) {
@@ -856,6 +797,22 @@ function hash<V>(value: V) {
   return applyHash(value, hashed);
 }
 ```
+
+---
+
+## Deprecated API
+
+### Brand
+
+To unify Api surface `Identity` should be used instead. **marked with `deprecated` and will be removed in v2.0.0**
+
+### asBrand
+
+To unify Api surface `asIdentity` should be used instead. **marked with `deprecated` and will be removed in v2.0.0**
+
+### isBrand
+
+To unify Api surface `isIdentity` should be used instead. **marked with `deprecated` and will be removed in v2.0.0**
 
 ---
 

@@ -48,7 +48,11 @@ export namespace Inspect {
   export type TraitKeysOf<T> = TraitsCore.TraitKeysOf<T>;
   /** Check if any traits exist */
   export type HasTraits<T> = TraitsCore.HasTraits<T>;
-  /** Check whether value is branded with */
+  /**
+   * Check whether value is branded with
+   *
+   * @deprecated To unify Api surface 'isIdentity' should be used instea, will be removed in v2.0.0. for more info check 'https://www.npmjs.com/package/@vicin/phantom#deprecated-api'
+   */
   export type isBrand<T, B extends BrandCore.Any> = BrandCore.isBrand<T, B>;
   /** Check whether value is branded with */
   export type isIdentity<

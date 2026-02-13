@@ -23,7 +23,7 @@ export type {
 export type { Inspect } from './inspect';
 
 // Only exposed core type, handles main '__Phantom' field in phantom object
-export { PhantomCore } from './phantom';
+export { PhantomCore, stripPhantom } from './phantom';
 
 /** --------------------------------------
  * Internal types

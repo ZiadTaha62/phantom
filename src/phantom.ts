@@ -143,6 +143,8 @@ export namespace Phantom {
    *
    * Brands provide nominal typing for otherwise identical values.
    * A value may only be branded once.
+   *
+   * @deprecated To unify Api surface 'Identity' should be used instea, will be removed in v2.0.0. for more info check 'https://www.npmjs.com/package/@vicin/phantom#deprecated-api'
    */
   export namespace Brand {
     /** Type guard for any brand. */
@@ -309,7 +311,11 @@ export namespace Phantom {
       T,
       Tr extends string | symbol = string | symbol,
     > = TraitsCore.HasTraits<T, Tr>;
-    /** Check whether value is branded with */
+    /**
+     * Check whether value is branded with
+     *
+     * @deprecated To unify Api surface 'isIdentity' should be used instea, will be removed in v2.0.0. for more info check 'https://www.npmjs.com/package/@vicin/phantom#deprecated-api'
+     */
     export type isBrand<T, B extends Brand.Any> = BrandCore.isBrand<T, B>;
     /** Check whether value is branded with */
     export type isIdentity<T, I extends Identity.Any> = IdentityCore.isIdentity<
@@ -336,6 +342,8 @@ export namespace Phantom {
      * This is a zero-cost runtime assertion helper — it simply returns the value
      * with the brand's nominal type applied. Use it for simple branded primitives
      * where you know the value is valid.
+     *
+     * @deprecated To unify Api surface 'asIdentity' should be used instea, will be removed in v2.0.0. for more info check 'https://www.npmjs.com/package/@vicin/phantom#deprecated-api'
      *
      * @template B - The brand declaration to assign.
      * @returns A function that casts any value to the branded type.
@@ -428,6 +436,8 @@ export namespace Phantom {
    * This is a zero-cost runtime assertion helper — it simply returns the value
    * with the brand's nominal type applied. Use it for simple branded primitives
    * where you know the value is valid.
+   *
+   * @deprecated To unify Api surface 'asIdentity' should be used instea, will be removed in v2.0.0. for more info check 'https://www.npmjs.com/package/@vicin/phantom#deprecated-api'
    *
    * @template B - The brand declaration to assign.
    * @returns A function that casts any value to the branded type.

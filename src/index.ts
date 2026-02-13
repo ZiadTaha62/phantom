@@ -19,12 +19,12 @@ export type {
   Input,
   Inspect,
   Label,
-  PhantomCore,
   Tag,
   Trait,
   Traits,
   Transformation,
   Variants,
 } from './core';
+export { PhantomCore, stripPhantom } from './core';
 import { Phantom } from './phantom';
 export default Phantom;

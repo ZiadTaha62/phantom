@@ -5,6 +5,7 @@ import type {
   PatchMetadata,
   Prettify,
   WithMetadata,
+  IfNever,
 } from './helpers';
 
 /**
@@ -24,12 +25,13 @@ export namespace IdentityCore {
     L extends string = never,
     B extends unknown = never,
     V extends string = never,
-  > = Prettify<
-    TagCore.Of<T> &
-      LabelCore.OfIfExists<L> &
-      BaseCore.OfIfExists<B> &
-      VariantsCore.OfIfExists<V>
-  >;
+  > = IfNever<B, unknown> &
+    Prettify<
+      TagCore.Of<T> &
+        LabelCore.OfIfExists<L> &
+        BaseCore.OfIfExists<B> &
+        VariantsCore.OfIfExists<V>
+    >;
 
   /**
    * Assign an identity to a value.

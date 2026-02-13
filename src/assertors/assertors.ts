@@ -20,6 +20,8 @@ export namespace assertors {
    * with the brand's nominal type applied. Use it for simple branded primitives
    * where you know the value is valid.
    *
+   * @deprecated To unify Api surface 'asIdentity' should be used instea, will be removed in v2.0.0. for more info check 'https://www.npmjs.com/package/@vicin/phantom#deprecated-api'
+   *
    * @template B - The brand declaration to assign.
    * @returns A function that casts any value to the branded type.
    */

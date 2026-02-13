@@ -38,7 +38,20 @@
   "keywords": [
     "typescript",
     "nominal-typing",
-    "ddd"
+    "ddd",
+    "domain-driven-design",
+    "branding",
+    "branded-types",
+    "type-safety",
+    "metadata",
+    "type-metadata",
+    "identity",
+    "traits",
+    "type-transformations",
+    "state-variants",
+    "type-pipe",
+    "zero-runtime",
+    "type-only"
   ],
   "author": "Ziad ziadtaha62@gmail.com",
   "license": "MIT",

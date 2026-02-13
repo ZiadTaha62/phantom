@@ -11,6 +11,7 @@ import type {
   PatchMetadata,
   Prettify,
   WithMetadata,
+  IfNever,
 } from './helpers';
 
 /**
@@ -30,13 +31,14 @@ export namespace TransformationCore {
     L extends string = never,
     B extends unknown = never,
     V extends string = never,
-  > = Prettify<
-    InputCore.Of<I> &
-      TagCore.Of<T> &
-      LabelCore.OfIfExists<L> &
-      BaseCore.OfIfExists<B> &
-      VariantsCore.OfIfExists<V>
-  >;
+  > = IfNever<B, unknown> &
+    Prettify<
+      InputCore.Of<I> &
+        TagCore.Of<T> &
+        LabelCore.OfIfExists<L> &
+        BaseCore.OfIfExists<B> &
+        VariantsCore.OfIfExists<V>
+    >;
 
   /**
    * Apply a transformation to a value.

@@ -7,6 +7,8 @@ import type { HandleOriginalType, Prettify, WithMetadata } from './helpers';
  *
  * Brands provide nominal typing for otherwise identical values.
  * A value may only be branded once.
+ *
+ * @deprecated To unify Api surface 'Identity' should be used instea, will be removed in v2.0.0. for more info check 'https://www.npmjs.com/package/@vicin/phantom#deprecated-api'
  */
 export namespace BrandCore {
   /** Type guard for any brand. */
